@@ -203,8 +203,13 @@ public class VendingMachineTester {
 
   // main method to call the tester methods defined in this class
   public static void main(String[] args) {
+    /* 
     System.out.println("testGetIndexNextItem(): " + testGetIndexNextItem());
     System.out.println("runAllTests(): " + runAllTests());
+    */
+    String[][] items = new String[][] {{"Water", "1"}, {"Chocolate", "10"}, {"Juice", "20"},
+          {"Water", "5"}, {"Candy", "30"}, {"Water", "15"}, {"Chocolate", "10"}, null, null};
+    System.out.println(VendingMachine.addItem("Nigger", "69", items, 7));
   }
 
 }

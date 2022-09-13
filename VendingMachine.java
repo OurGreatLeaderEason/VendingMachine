@@ -27,10 +27,18 @@ public class VendingMachine {
    */
   public static int addItem(String description, String expirationDate, String[][] items,
       int itemsCount) {
-    // TODO Implement this method.
+    if (itemsCount<items.length){
+      int count=0;
+      while (items[count]!=null){
+        count++;
+      }
+      items[count]=new String[]{description, expirationDate};
+      return itemsCount+1;
+    }
+    
     // Note that we suppose that the expirationDate is valid, meaning it is correctly
     // parsable to a positive integer
-    return 0; // default return statement added to avoid compiler errors. Feel free to change it.
+    return itemsCount; // default return statement added to avoid compiler errors. Feel free to change it.
   }
 
   /**
