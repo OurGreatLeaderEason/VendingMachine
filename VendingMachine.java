@@ -2,9 +2,9 @@
 
 // Below is a javadoc class header to complete
 /**
- * A program that simulates many utilities of the real life vending machine
+ * TODO add a short description of this class here
  * 
- * @Eason Xiao
+ * @author TODO add your name here
  *
  */
 public class VendingMachine {
@@ -57,11 +57,8 @@ public class VendingMachine {
    *         indexes 0..itemsCount-1, the method returns "ERROR INVALID INDEX"
    */
   public static String getItemAtIndex(int index, String[][] items, int itemsCount) {
-    if (index>=0 && index<itemsCount){
-        String[] item=items[index];
-        return item[0]+" "+"("+item[1]+")";
-    }
-    return "ERROR INVALID INDEX"; // default return statement added to avoid compiler errors. Feel free to change it.
+    // TODO Implement this method.
+    return null; // default return statement added to avoid compiler errors. Feel free to change it.
   }
 
   /**
@@ -77,21 +74,10 @@ public class VendingMachine {
    *         smallest expiration date. If no match found, return -1.
    */
   public static int getIndexNextItem(String description, String[][] items, int itemsCount) {
-    int count=0; 
-    for (int i=0; i<itemsCount; i++){
-        
-        if (items[i][0].equals(description)){
-            count++;
-        }
-    }
-    
-    if (count!=0){
-        return -1;
-    }
-    
+    // TODO Implement this method.
     // If the vending machine contains more than one item with the given description,
     // return the index o the one with the smallest expiration date.
-    return -1; // default return statement added to avoid compiler errors. Feel free to change it.
+    return 0; // default return statement added to avoid compiler errors. Feel free to change it.
   }
 
   /**
