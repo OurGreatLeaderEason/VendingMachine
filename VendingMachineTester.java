@@ -139,13 +139,47 @@ public class VendingMachineTester {
 
   // Checks the correctness of getItemAtIndex defined in the VendingMachine class. This method
   // returns true if the test verifies a correct functionality and false if any bug is detected
-  public static boolean testGetItemAtIndex() {
-    // Define at least two test scenarios: (1) the provided index is out of the range
-    // 0..itemsCount-1, (2) the provided index is in bounds [0..itemsCount-1].
+  public static boolean testgetItemAtIndex() {
+    // Define at least two test scenarios: 
+    //(1) the provided index is out of the range 0..itemsCount-1,
+    
+    String[][] items = new String[][] {{"Water", "1"}, {"Chocolate", "10"}, {"Juice", "20"},
+          {"Water", "5"}, {"Candy", "30"}, {"Water", "15"}, {"Chocolate", "10"}, null, null};
+    int itemsCount=7;
+    if (!VendingMachine.getItemAtIndex(69, items, itemsCount).equals("ERROR INVALID INDEX")){
+        System.out.println(
+            "testgetItemAtIndex-scenario 1. Problem detected: Your getItemAtIndex did not return "
+                + "ERROR INVALID INDEX when no match found.");
+        return false;
+    }
+    String[][] originalItems=new String[][] {{"Water", "1"}, {"Chocolate", "10"}, {"Juice", "20"},
+          {"Water", "5"}, {"Candy", "30"}, {"Water", "15"}, {"Chocolate", "10"}, null, null};
+    if (!Arrays.deepEquals(items, originalItems)){
+        System.out.println(
+            "testgetItemAtIndex-scenario 1. Problem detected: Your getItemAtIndex did make "
+                + "changes to the content of the array passed as input.");
+    }
+    //(2) the provided index is in bounds [0..itemsCount-1].
+    items = new String[][] {{"Water", "1"}, {"Chocolate", "10"}, {"Juice", "20"},
+          {"Water", "5"}, {"Candy", "30"}, {"Water", "15"}, {"Chocolate", "10"}, null, null};
+    itemsCount=7;
+    if (!VendingMachine.getItemAtIndex(3, items, itemsCount).equals("Water (5)")){
+        System.out.println(
+            "testgetItemAtIndex-scenario 2. Problem detected: Your getItemAtIndex did not return "
+                + "the item at the given index.");
+        return false;
+    }
+    originalItems=new String[][] {{"Water", "1"}, {"Chocolate", "10"}, {"Juice", "20"},
+          {"Water", "5"}, {"Candy", "30"}, {"Water", "15"}, {"Chocolate", "10"}, null, null};
+    if (!Arrays.deepEquals(items, originalItems)){
+        System.out.println(
+            "testgetItemAtIndex-scenario 2. Problem detected: Your getItemAtIndex did make "
+                + "changes to the content of the array passed as input.");
+    }
     // For each test scenario, ensure that the method returned the exact expected string output
     // without making any changes to the contents of the array.
 
-    return false; // default return statement to let this incomplete code compiles with no errors.
+    return true; // default return statement to let this incomplete code compiles with no errors.
   }
 
   // Checks the correctness of getItemOccurrences defined in the VendingMachine class.
@@ -160,15 +194,40 @@ public class VendingMachineTester {
 
   // Checks the correctness of addItem defined in the VendingMachine class.
   public static boolean testAddItem() {
-    // Define at least three test scenarios: (1) adding a new item to an empty vending machine whose
-    // size is zero (provided itemsCount == 0), (2) adding a new item to a non-empty non-full
-    // vending machine, and (3) adding a new item to a full vending machine where the provided
-    // itemsCount equals the length of the provided items array.
-
+    // Define at least three test scenarios: 
+    //(1) adding a new item to an empty vending machine whose size is zero (provided itemsCount == 0)
+    String[][] items = new String[][] {null, null, null,null, null, null, null, null, null};
+    int itemsCount=0;
+    if (VendingMachine.addItem("Mountain Dew", "69", items, itemsCount)!=1){
+        System.out.println(
+            "testAddItem-scenario 1. Problem detected: Your testAddItem did not return "
+                + "the correct itemsCount.");
+        return false;
+    }
+    //(2) adding a new item to a non-empty non-full vending machine
+    items = new String[][] {{"Water", "1"}, {"Chocolate", "10"}, {"Juice", "20"},
+          {"Water", "5"}, {"Candy", "30"}, {"Water", "15"}, {"Chocolate", "10"}, null, null};
+    itemsCount=7;
+    if (VendingMachine.addItem("Mountain Dew", "69", items, itemsCount)!=8){
+        System.out.println(
+            "testAddItem-scenario 2. Problem detected: Your testAddItem did not return "
+                + "the correct itemsCount.");
+        return false;
+    }
+    //(3) adding a new item to a full vending machine where the provided itemsCount equals the length of the provided items array.
+    items = new String[][] {{"Water", "1"}, {"Chocolate", "10"}, {"Juice", "20"},
+          {"Water", "5"}, {"Candy", "30"}, {"Water", "15"}, {"Chocolate", "10"}, {"Mountain Dew", "69"}, {"Rare Candy", "70"}};
+    itemsCount=9;
+    if (VendingMachine.addItem("Full Restore", "5", items, itemsCount)!=9){
+        System.out.println(
+            "testAddItem-scenario 3. Problem detected: Your testAddItem did not return "
+                + "the correct itemsCount.");
+        return false;
+    }
     // For each tester scenario, check for the expected returned size of the vending machine and
     // the expected content of the items array after the method call returns.
 
-    return false; // default return statement to let this incomplete code compiles with no errors.
+    return true; // default return statement to let this incomplete code compiles with no errors.
   }
 
   // Checks the correctness of removeNextItem defined in the VendingMachine class.
@@ -197,19 +256,24 @@ public class VendingMachineTester {
   // This method returns false if any of the tester methods defined in this class fails, and true
   // if no bug detected.
   public static boolean runAllTests() {
-
-    return false; // default return statement to let this incomplete code compiles with no errors.
+    if (testAddItem()==false){
+        return false;
+    }
+    if (testgetItemAtIndex()==false){
+        return false;
+    }
+    return true; // default return statement to let this incomplete code compiles with no errors.
   }
 
   // main method to call the tester methods defined in this class
   public static void main(String[] args) {
-    /* 
-    System.out.println("testGetIndexNextItem(): " + testGetIndexNextItem());
+    
+    //System.out.println("testGetIndexNextItem(): " + testGetIndexNextItem());
+    System.out.println("testgetItemAtIndex(): " + testgetItemAtIndex());
+    System.out.println("testAddItem(): " + testAddItem());
     System.out.println("runAllTests(): " + runAllTests());
-    */
-    String[][] items = new String[][] {{"Water", "1"}, {"Chocolate", "10"}, {"Juice", "20"},
-          {"Water", "5"}, {"Candy", "30"}, {"Water", "15"}, {"Chocolate", "10"}, null, null};
-    System.out.println(VendingMachine.addItem("Nigger", "69", items, 7));
+    
+    
   }
 
 }
