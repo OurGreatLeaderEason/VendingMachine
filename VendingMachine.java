@@ -1,10 +1,18 @@
 // File header comes Here
-
+//////////////// FILE HEADER (INCLUDE IN EVERY FILE) //////////////////////////
+//
+// Title:   Tester for VendingMachine class
+// Course:   CS 300 Fall 2022
+//
+// Author:   Eason Xiao
+// Email:    ( xiao227@wisc.edu email address)
+// Lecturer: (Jeff Nyhoff)
+//
 // Below is a javadoc class header to complete
 /**
- * TODO add a short description of this class here
+ * A program that simulates many utilities of the real life vending machine
  * 
- * @author TODO add your name here
+ * @Eason Xiao
  *
  */
 public class VendingMachine {
@@ -57,8 +65,11 @@ public class VendingMachine {
    *         indexes 0..itemsCount-1, the method returns "ERROR INVALID INDEX"
    */
   public static String getItemAtIndex(int index, String[][] items, int itemsCount) {
-    // TODO Implement this method.
-    return null; // default return statement added to avoid compiler errors. Feel free to change it.
+    if (index>=0 && index<itemsCount){
+        String[] item=items[index];
+        return item[0]+" "+"("+item[1]+")";
+    }
+    return "ERROR INVALID INDEX"; // default return statement added to avoid compiler errors. Feel free to change it.
   }
 
   /**
@@ -74,10 +85,51 @@ public class VendingMachine {
    *         smallest expiration date. If no match found, return -1.
    */
   public static int getIndexNextItem(String description, String[][] items, int itemsCount) {
-    // TODO Implement this method.
+    int count=0; 
+    for (int i=0; i<itemsCount; i++){
+        if (items[i][0].equals(description)){
+            count++;
+        }
+    }
+    //Case 1: no duplicates
+    if (count==1){
+      int index=0;
+      while (!items[index][0].equals(description)){
+        index++;
+      }
+      return index;
+    }
+    //Case 2: unknown number of duplicates
+    if (count>1){
+      String[][] duplicateIndex=new String[count][3];
+      int counter=0;
+      for(int i=0; i<itemsCount; i++){
+        if (items[i][0].equals(description)){
+          duplicateIndex[counter][0]=Integer.toString(i);
+          duplicateIndex[counter][1]=description;
+          duplicateIndex[counter][2]=items[i][1];
+          counter++;
+        }
+      }
+      int minValue=Integer.MAX_VALUE;
+      for (int i=0; i<duplicateIndex.length; i++){
+        if (minValue>Integer.parseInt(duplicateIndex[i][2])){
+          minValue=Integer.parseInt(duplicateIndex[i][2]);
+        }
+      }
+      String minVal=Integer.toString(minValue);
+      for (int i=0; i<itemsCount; i++){
+        if (items[i][0].equals(description)&&items[i][1].equals(minVal)){
+          return i;
+        }
+      }
+    }
+    
     // If the vending machine contains more than one item with the given description,
     // return the index o the one with the smallest expiration date.
-    return 0; // default return statement added to avoid compiler errors. Feel free to change it.
+    //
+    return -1; // Case 3: the specified description does not exist
+    //Scenario 7, press and hold overtake
   }
 
   /**
@@ -94,8 +146,58 @@ public class VendingMachine {
    *         itemsCount without making any change to the contents of the vending machine.
    */
   public static int removeNextItem(String description, String[][] items, int itemsCount) {
-    // TODO Implement this method.
-    return 0; // default return statement added to avoid compiler errors. Feel free to change it.
+    int count=0; 
+    for (int i=0; i<itemsCount; i++){
+        if (items[i][0].equals(description)){
+            count++;
+        }
+    }
+    if (count==1){
+      int nullIndex=0;
+      for (int i=0; i<itemsCount; i++){
+        if (items[i][0].equals(description)){
+          items[i]=null;
+          nullIndex=i;
+        }
+      }
+      for (int i=nullIndex; i<itemsCount-1; i++){
+        items[i]=items[i+1];
+        items[i+1]=null;
+      }
+      return itemsCount-1;
+    }
+    if (count>1){
+      String[][] duplicateIndex=new String[count][3];
+      int counter=0;
+      for(int i=0; i<itemsCount; i++){
+        if (items[i][0].equals(description)){
+          duplicateIndex[counter][0]=Integer.toString(i);
+          duplicateIndex[counter][1]=description;
+          duplicateIndex[counter][2]=items[i][1];
+          counter++;
+        }
+      }
+      int minValue=Integer.MAX_VALUE;
+      for (int i=0; i<duplicateIndex.length; i++){
+        if (minValue>Integer.parseInt(duplicateIndex[i][2])){
+          minValue=Integer.parseInt(duplicateIndex[i][2]);
+        }
+      }
+      String minVal=Integer.toString(minValue);
+      int nullIndex=0;
+      for (int i=0; i<itemsCount; i++){
+        if (items[i][0].equals(description)&&items[i][1].equals(minVal)){
+          nullIndex=i;
+        }
+      }
+      items[nullIndex]=null;
+      for (int i=nullIndex; i<itemsCount-1; i++){
+        items[i]=items[i+1];
+        items[i+1]=null;
+      }
+      return itemsCount-1;
+    }
+    return itemsCount; 
   }
 
   /**
@@ -111,8 +213,13 @@ public class VendingMachine {
    *         machine
    */
   public static int getItemOccurrences(String description, String[][] items, int itemsCount) {
-    // TODO Implement this method.
-    return 0; // default return statement added to avoid compiler errors. Feel free to change it.
+    int count=0; 
+    for (int i=0; i<itemsCount; i++){
+        if (items[i][0].equals(description)){
+            count++;
+        }
+    }
+    return count; // default return statement added to avoid compiler errors. Feel free to change it.
   }
 
   /**
@@ -127,7 +234,15 @@ public class VendingMachine {
    * @return true if there is a match with description in the vending machine, false otherwise
    */
   public static boolean containsItem(String description, String[][] items, int itemsCount) {
-    // TODO Implement this method.
+    int count=0; 
+    for (int i=0; i<itemsCount; i++){
+        if (items[i][0].equals(description)){
+            count++;
+        }
+    }
+    if (count>0){
+      return true;
+    }
     return false; // default return statement added to avoid compiler errors. Feel free to change
                   // it.
   }
@@ -147,28 +262,62 @@ public class VendingMachine {
    */
   public static int getItemsOccurrencesByExpirationDate(String description, String expirationDate,
       String[][] items, int itemsCount) {
-    // TODO Implement this method.
-    return 0; // default return statement added to avoid compiler errors. Feel free to change it.
+        int count=0; 
+        for (int i=0; i<itemsCount; i++){
+            if (items[i][1].equals(expirationDate)){
+                count++;
+            }
+        }
+    return count; // default return statement added to avoid compiler errors. Feel free to change it.
   }
 
-  /**
-   * Returns a summary of the contents of a vending machine in the following format: Each line
-   * contains the description or item name followed by one the number of occurrences of the item
-   * name in the vending machine between parentheses. For instance, if the vending machine contains
-   * five bottles of water, ten chocolates, and seven snacks, the summary description will be as
-   * follows. "water (5)\nchocolate (10)\nsnack (7)"
-   * If the vending machine is empty, this method returns an empty string ""
-   * 
-   * @param items      two dimensional array storing items within a vending machine where
-   *                   items[i][0] represents the description of the item at index i and items[i][1]
-   *                   stores its expiration date.
-   * @param itemsCount (size) number of items stored in the vending machine
-   * @return a descriptive summary of the contents of a vending machine
-   */
+   
+   
   public static String getItemsSummary(String[][] items, int itemsCount) {
-    // TODO Implement this method.
-    return null; // default return statement added to avoid compiler errors.
-                 // Feel free to change it.
+    if (itemsCount==0){
+      return "";
+    }
+    String[] descOnly=new String[itemsCount];
+      for (int i=0; i<itemsCount; i++){
+        descOnly[i]=items[i][0];
+      }
+      int counter=0;
+      int count=0;
+      for(int i=0; i<descOnly.length; i++){
+        counter=0;
+        for(int j=i-1; j>=0; j--){
+          if(descOnly[i].equals(descOnly[j])){
+            counter++;
+          }
+        }
+        if (counter==0){
+          count++;
+        }
+      }
+      String[][] uniqueItems=new String[count][2];
+      for (int i=0; i<uniqueItems.length; i++){
+        uniqueItems[i]=new String[]{"", "0"};
+      }
+      int pos=0;
+      for (int i=0; i<descOnly.length; i++){
+        boolean inUniqueItems=false;
+        for (int j=0; j<uniqueItems.length; j++){
+          if (uniqueItems[j][0].equals(descOnly[i])){
+            inUniqueItems=true;
+            uniqueItems[j][1]=Integer.toString(Integer.parseInt(uniqueItems[j][1])+1);
+          }
+        }
+        if (!inUniqueItems){
+          uniqueItems[pos][0]=descOnly[i];
+          uniqueItems[pos][1]="1";
+          pos++;
+        }
+      }
+      String sum="";
+      for (int i=0; i<uniqueItems.length; i++){
+        sum+="\n"+uniqueItems[i][0]+" ("+uniqueItems[i][1]+")";
+      }
+      return sum;
   }
 
 }
